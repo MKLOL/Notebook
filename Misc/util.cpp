@@ -17,3 +17,6 @@ for (int news=state; news; news=state&(news-1))//all subsets of state
 CYGWIN stack since ubuntu for windows doesn't let ulimit yet.
 
 g++.exe -Wl,--stack,900000000 a.cpp && ./a.exe < test.in > test.out
+
+OSX:
+g++-9 -Wl,-stack_size -Wl,100000000 test.cpp && ./a.out
