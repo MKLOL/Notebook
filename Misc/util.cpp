@@ -20,3 +20,8 @@ g++.exe -Wl,--stack,900000000 a.cpp && ./a.exe < test.in > test.out
 
 OSX:
 g++-9 -Wl,-stack_size -Wl,100000000 test.cpp && ./a.out
+
+
+Java location openwebstart for topcoder sec. (remove MD5).
+Usually in .cache do find . | grep java.security
+./.cache/icedtea-web/jvm-cache/eclipse-temurin_11.0.13/conf/security/java.security
