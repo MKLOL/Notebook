@@ -8,3 +8,9 @@ inline int comp(int x) {
   for (int i = x; i > 0; i -= zeros(i)) ret += AIB[i];
   return ret;
 }
+
+inline int comp(int l, int r) {
+  l = max(1, l);
+  r = min(N, r);
+  return comp(r) - comp(l-1);
+}

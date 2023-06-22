@@ -1,9 +1,19 @@
 int aint[Nmax*4], up[Nmax*4], v[Nmax];
+
 inline void relax(int nod,int st,int dr) {
   if(!up[nod]) return; aint[nod] += up[nod];
+  auto c = up[nod];
   if(st!=dr) { up[2*nod]+=c; up[2*nod+1]+=c; }
   up[nod] = 0;
 }
+
+inline void make(int nod, int st, int dr) {
+  int mij = (st+dr)/2;
+  relax(2 * nod);
+  relax(2 * nod + 1);
+  aint[nod] = aint[2*nod] + aint[2*nod + 1];
+}
+
 void update(int nod,int ist,int idr,int st,int dr,ll val) {
   relax(nod,st,dr);
   if(ist<=st&&idr>=dr) {
