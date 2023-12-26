@@ -19,4 +19,4 @@ struct ModInt {
   bool operator<(ModInt that) const { return x < that.x; }
   friend ostream& operator<<(ostream &os, ModInt a) { os << a.x; return os; }
 };
-typedef ModInt<1000000007> mint;
+typedef ModInt<MOD> mint;
