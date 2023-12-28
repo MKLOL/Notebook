@@ -65,7 +65,7 @@ pair<pdd,pdd> disppt(pdd P, pdd Q, double d) {
 }
 double area(vector<pdd> &v) {
   double ret = 0; int N = v.size();
-  for(int i=0;i<N;++i) { ret += v[i]%v[(j+1)%N]; }
+  for(int i=0;i<N;++i) { ret += v[i]%v[(i+1)%N]; }
   return abs(ret)/2;
 }
 double getX(pdd v1, pdd v2, double t) { // find (x,t) on (v1,v2)
