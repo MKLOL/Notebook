@@ -1,3 +1,5 @@
+int K, e[Nmax], L[Nmax], poz[Nmax], Lg[Nmax], rmq[Lmax][Nmax];
+vi g[Nmax];
 void dfs(int x, int lev) {
   e[++K] = x; L[K] = lev; poz[x] = K;
   for(auto y: g[x]) {
