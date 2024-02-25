@@ -10,7 +10,7 @@ public:
     // Constructor
     UnionFind(int size) : size(size) {
         par.resize(size);
-        h.resize(size, 0);
+        h.resize(size, 1);
         for (int i = 0; i < size; ++i) {
             par[i] = i;
         }
