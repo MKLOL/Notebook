@@ -1,12 +1,12 @@
 #include <vector>
 
 class UnionFind {
-private:
+public:
     vector<int> par;
     vector<int> h;
     int size;
 
-public:
+
     // Constructor
     UnionFind(int size) : size(size) {
         par.resize(size);
