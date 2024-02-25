@@ -49,7 +49,7 @@ public:
     void clear() {
         for (int i = 0; i < size; ++i) {
             par[i] = i;
-            h[i] = 0;
+            h[i] = 1;
         }
     }
 };
