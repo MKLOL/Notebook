@@ -1,3 +1,4 @@
+// Stolen from JustJie
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
 template <typename T> 
@@ -12,12 +13,12 @@ template <typename T> struct SortedList {
     int index(T val) { return ost.order_of_key(make_pair(val, -1)); }
     T operator[] (int i) const { return ost.find_by_order(i)->first; }
 
-    T lower_bound(T val) {
+    int lower_bound(T val) {
         auto it = ost.lower_bound(make_pair(val, -1));
         return it == ost.end() ? ost.size() : ost.order_of_key(*it);
     }
 
-    T upper_bound(T val) {
+    int upper_bound(T val) {
         auto it = ost.lower_bound(make_pair(val, 1000000000));
         return it == ost.end() ? ost.size() : ost.order_of_key(*it);
     }
