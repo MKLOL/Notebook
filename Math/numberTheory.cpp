@@ -1,3 +1,34 @@
+int fp[Nmax]; //fp = first prime, i == fp[i] means prime
+int np[Nmax]; //np = num primes
+void makeSieve(int lim) {
+  for(int i=2;i<=lim;++i) {
+    if(!fp[i]) {
+      for(int j=i;i*j<=lim;++j) {
+        if(!fp[i*j]) fp[i*j] = i;
+        ++np[j];
+      }
+      fp[i] = i;
+    }
+  }
+}
+vi getPrimes(int x) {
+  vi ret;
+  while(x > 1) {
+    int p = fp[x];
+    ret.pb(p);
+    while(x % p == 0) x /= p;
+  }
+  return ret;
+}
+
+int fi[Nmax];
+void makeFi(int lim) {
+  fi[1] = 1; for(int i=2;i<=lim;++i) fi[i] = i-1;
+  for(int i=2;i<=lim;++i) {
+    for(int j=2;i*j<=lim;++j) fi[i*j] -= fi[i];
+  }
+}
+
 int lcm(int a, int b) { return a / __gcd(a,b) * b; }
 int gcd(int a, int b, int &x, int &y) {
   if(!b) { x=1; y=0; return a; } 
@@ -9,7 +40,7 @@ int gcd(int a, int b, int &x, int &y) {
 pair<int,int> euclid(int a, int b, int c) { //ax - by = c;
   int x, y, sol1, sol2; int d = gcd(a,b,x,y);
   if(c%d) return mp(0,0); //no sol
-  } else { sol1 = (c/d)*x; sol2 = -(c/d)*y; }
+  else { sol1 = (c/d)*x; sol2 = -(c/d)*y; }
   //only if want minimal
   while(sol1 < 0 || sol2 < 0) { sol1 += b/d; sol2 += a/d;}
   while(sol1 >= b/d || sol2 >= a/d) { sol1 -= b/d; sol2 -= a/d;}
@@ -24,21 +55,6 @@ ll mulmod(ll a,ll b,ll c) {// a*b mod c
   ll x = 0, y=a%c;
   while(b > 0){ if(b%2 == 1) x = (x+y)%c; y = (y*2)%c; b /= 2; }
   return x%c;
-}
-int fi[Nmax],sp[Nmax]; //sp = smallest prime
-void makeSieve(int lim) {
-  for(int i=2;i<=lim;++i) {
-    if(!sp[i]) {
-      for(int j=i;i*j<=lim;++j) { if(!sp[i*j]) sp[i*j] = i;}
-      sp[i] = i;
-    }
-  }
-}
-void makeFi(int lim) {
-  fi[1] = 1; for(int i=2;i<=lim;++i) fi[i] = i-1;
-  for(int i=2;i<=lim;++i) {
-    for(int j=2;i*j<=lim;++j) fi[i*j] -= fi[i];
-  }
 }
 vector<int> linSolver(int a, int b, int c) { //ax = b (mod c)
   vector<int> sol; int d = __gcd(a,c);
