@@ -1,8 +1,9 @@
 int fp[Nmax]; //fp = first prime, i == fp[i] means prime
 int np[Nmax]; //np = num primes
-void makeSieve(int lim) {
+vi makeSieve(int lim) {
   for(int i=2;i<=lim;++i) {
     if(!fp[i]) {
+      ret.pb(i);
       for(int j=i;i*j<=lim;++j) {
         if(!fp[i*j]) fp[i*j] = i;
         ++np[j];
@@ -10,6 +11,7 @@ void makeSieve(int lim) {
       fp[i] = i;
     }
   }
+  return ret;
 }
 vi getPrimes(int x) {
   vi ret;
