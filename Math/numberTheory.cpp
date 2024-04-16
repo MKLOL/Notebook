@@ -1,6 +1,7 @@
 int fp[Nmax]; //fp = first prime, i == fp[i] means prime
 int np[Nmax]; //np = num primes
 vi makeSieve(int lim) {
+  vi ret;
   for(int i=2;i<=lim;++i) {
     if(!fp[i]) {
       ret.pb(i);
