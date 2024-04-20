@@ -5,7 +5,7 @@ vi makeSieve(int lim) {
   for(int i=2;i<=lim;++i) {
     if(!fp[i]) {
       ret.pb(i);
-      for(int j=i;i*j<=lim;++j) {
+      for(int j=i;1LL*i*j<=lim;++j) {
         if(!fp[1LL*i*j]) fp[1LL*i*j] = i;
         ++np[j];
       }
