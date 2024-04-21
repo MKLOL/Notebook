@@ -1,28 +1,4 @@
-int fp[Nmax]; //fp = first prime, i == fp[i] means prime
-int np[Nmax]; //np = num primes
-vi makeSieve(int lim) {
-  vi ret;
-  for(int i=2;i<=lim;++i) {
-    if(!fp[i]) {
-      ret.pb(i);
-      for(int j=i;1LL*i*j<=lim;++j) {
-        if(!fp[1LL*i*j]) fp[1LL*i*j] = i;
-        ++np[j];
-      }
-      fp[i] = i;
-    }
-  }
-  return ret;
-}
-vi getPrimes(int x) {
-  vi ret;
-  while(x > 1) {
-    int p = fp[x];
-    ret.pb(p);
-    while(x % p == 0) x /= p;
-  }
-  return ret;
-}
+int lcm(int a, int b) { return a / __gcd(a,b) * b; }
 
 int fi[Nmax];
 void makeFi(int lim) {
@@ -32,7 +8,7 @@ void makeFi(int lim) {
   }
 }
 
-int lcm(int a, int b) { return a / __gcd(a,b) * b; }
+// Euclid extins
 int gcd(int a, int b, int &x, int &y) {
   if(!b) { x=1; y=0; return a; } 
   else {
@@ -71,7 +47,8 @@ vector<int> linSolver(int a, int b, int c) { //ax = b (mod c)
   }
   return sol;
 }
-// x = a1 mod m1, x = a2 mod m2
+
+// Chinese remainder theorem x = a1 mod m1, x = a2 mod m2
 pair<int,int> crt(int a1, int m1, int a2, int m2) {
   int d = gcd(m1,m2);
   pair<int,int> p = euclid(m1,m2,d);
@@ -88,4 +65,32 @@ pair<int,int> chinese(vector<int> &a, vector<int> &m) {
     ret = crt(ret.fs, ret.sc, a[i], m[i]); if (ret.sc == -1) break;
   }
   return ret;
+}
+
+// Fancy comb A, B ~ 10^18, MOD ~ 10^6 didn't test in a while tho
+ll vp(ll x) { //exponent of MOD in x!
+  ll z = MOD, ret = 0;
+  while(z <= x) { ret += x/z; z *= MOD;}
+  return ret;
+}
+ll inv[Nmax], fact[Nmax];
+void make_fact(int N) {
+  inv[1] = fact[0] = fact[1] = 1;
+  for(int i=2;i<=N;++i) {
+    inv[i] = (MOD - (MOD/i) * inv[MOD%i] % MOD) % MOD;
+    fact[i] = (fact[i-1]*i) % MOD;
+  }
+}
+ll f(ll x) { // x! % MOD if we ignore the MOD factors
+  if(x < MOD) return fact[x];
+  ll z = 1, k = 0;
+  do { z *= MOD; ++k; } while (z <= x/MOD);
+  ll ret = (fact[x/z] * f(x%z)) % MOD;
+  if(k%2 && t%2) return (MOD-ret)%MOD;
+  else return ret;
+}
+ll getComb(ll A, ll B) {
+  if(vp(A) > vp(B) + vp(A-B)) return 0;
+  if(MOD==2) return 1;
+  return (((f(A)*inv[f(B)])%MOD)*inv[f(A-B)])%MOD;
 }
