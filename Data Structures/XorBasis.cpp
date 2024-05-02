@@ -11,17 +11,15 @@ public:
 
     // Method to insert a vector into the basis
     void ins(int mask) {
-        for (int i = LG-1; i >= 0; i--) {
-            if ((mask & (1 << i)) == 0) continue; // Continue if i != f(mask)
-
-            if (!basis[i]) { // If there is no basis vector with the i'th bit set
-                basis[i] = mask;
-                ++csz;
-                return;
-            }
-
-            mask ^= basis[i]; // Otherwise subtract the basis vector from this vector
+      if (csz == LG) return;
+      while (mask) {
+        int i = __lg(mask);
+        if (basis[i]) mask ^= basis[i];
+        else {
+          basis[i] = mask;
+          break;
         }
+      }
     }
 
     void insb(VectorBasis &vb) {
