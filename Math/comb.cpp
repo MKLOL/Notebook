@@ -1,8 +1,8 @@
 // N ~ 10^6
 class Combinations {
-private:
-  vector<mint> inv, fact, ifact;
 public:
+  vector<mint> inv, fact, ifact;
+
   Combinations(int N) {
     inv.resize(N+10), fact.resize(N+10), ifact.resize(N+10);
     inv[1] = fact[0] = fact[1] = ifact[0] = ifact[1] = 1;
