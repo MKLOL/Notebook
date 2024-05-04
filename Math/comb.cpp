@@ -12,6 +12,7 @@ public:
       ifact[i] = ifact[i-1]*inv[i];
     }
   }
+  // a > b
   mint comb(ll a, ll b) {
     if(a < b) return mint(0);
     return fact[a] * ifact[b] * ifact[a-b];
