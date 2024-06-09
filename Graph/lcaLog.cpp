@@ -1,31 +1,56 @@
-int par[Nmax][Lmax],N,M, lg[Nmax], lvl[Nmax];
-vi g[Nmax];
-void dfs(int nod, int lev){
-  lvl[nod] = lev;
-  for(auto x: g[nod])
-  if(!lvl[x]) { par[x][0] = nod; dfs(x, lev+1); }
-}
-int lca(int x,int y){
-  if(lvl[x] < lvl[y]) swap(x,y);
-  int log1=1, log2=1;
-  for(;(1<<log1) < lvl[x]; ++log1);
-  for(;(1<<log2) < lvl[y]; ++log2);
-  for(int k = log1; k >= 0; --k){
-    if(lvl[x] - (1 << k) >= lvl[y]) x = par[x][k];
-  }
-  if (x == y) return x;
-  for(int k=log2; k>=0 ;--k) {
-    if(par[x][k] && par[x][k] != par[y][k]){
-      x = par[x][k]; y = par[y][k];
+class LCAFinder {
+private:
+    vector<vector<int>> g;
+    vector<vector<int>> par;
+    vector<int> lvl;
+    int N;
+    int L;
+
+    void dfs(int node, int level) {
+        lvl[node] = level;
+        for (int x : g[node]) {
+            if (lvl[x] == -1) { // Using -1 to indicate unvisited
+                par[x][0] = node;
+                dfs(x, level + 1);
+            }
+        }
     }
-  }
-  return par[x][0];
-}
-void preprocessLca() {
-  dfs(1,1);
-  for(int k=1; (1<<k) <= N; ++k){
-    for(int i=1;i<=N;++i){
-      par[i][k] = par[par[i][k-1]][k-1];
+
+    void preprocessLca(int root) {
+        lvl.assign(N, -1); // Initialize levels to -1 for unvisited nodes
+        L = 0;
+        for (int i = 1; i <= N; i <<= 1) L++; // Calculate the number of levels needed for sparse table
+        par.assign(N, vector<int>(L, -1)); // Initialize parent table with -1
+        dfs(root, 0); // Start DFS from the specified root
+        for (int k = 1; k < L; ++k) {
+            for (int i = 0; i < N; ++i) {
+                if (par[i][k-1] != -1) {
+                    par[i][k] = par[par[i][k-1]][k-1];
+                }
+            }
+        }
     }
-  }
-}
+
+public:
+    LCAFinder(vector<vector<int>> graph, int root) : g(graph) {
+        N = g.size();
+        preprocessLca(root);
+    }
+
+    int lca(int x, int y) {
+        if (lvl[x] < lvl[y]) swap(x, y);
+        for (int k = L - 1; k >= 0; --k) {
+            if (lvl[x] - (1 << k) >= lvl[y]) {
+                x = par[x][k];
+            }
+        }
+        if (x == y) return x;
+        for (int k = L - 1; k >= 0; --k) {
+            if (par[x][k] != par[y][k]) {
+                x = par[x][k];
+                y = par[y][k];
+            }
+        }
+        return par[x][0];
+    }
+};
