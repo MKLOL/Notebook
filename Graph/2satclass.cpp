@@ -1,12 +1,13 @@
 class TwoSAT {
 public:
-  int N; // number of literals
-  vi s, c, sol, viz, vz;
+  int N; // number of literals (assume 1-indexed)
+  vi vals; // final truth values
+
   vvi g, gt, v; // graph and reverse graph
+  vi s, c, sol, viz, vz;
  
   TwoSAT(int sz) { // number of literals
     N = sz;
-
     c.resize(N * 2 + 2);
     sol.resize(N * 2 + 2);
     viz.resize(N * 2 + 2);
@@ -14,10 +15,10 @@ public:
     g.resize(N * 2 + 2);
     gt.resize(N * 2 + 2);
     v.resize(N * 2 + 2);
+    vals.resize(N + 1);
   }
  
   void dfs(int x) {
-
     viz[x] = 1; 
     for(auto y: g[x]) 
       if(!viz[y]) 
@@ -51,6 +52,7 @@ public:
     for(int i=2;i<=2*N+1;++i) if(!viz[i]) dfs(i);
     for(int i=sz(s)-1;i>=0;--i) if(viz[s[i]]) dfs2(s[i],++comp);
     for(int i=1;i<=comp;++i) if(!vz[i]) if(!f(i,1)) return false;
+    for(int i=1;i<=N;++i) vals[i] = sol[2*i] - 1;
     return true;
   }
  
@@ -68,7 +70,6 @@ public:
       v[i].clear();
       g[i].clear();
       gt[i].clear();
- 
     }
   }
 };
