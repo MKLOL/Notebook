@@ -1,32 +1,40 @@
 class PSum {
 public:
-    vector<ll> sm;
+  vector<ll> sm;
 
-    PSum(int N) : sm(N) {}
-    void add(int pos, ll val) {
-        sm[pos] += val;
-    }
-    void add(vll &v) {
-        FOR(i, sz(v)) {
-            sm[i] += v[i];
-        }
-    }
+  // Constructor that initializes the vector with size N
+  PSum(int N) : sm(N) {}
 
-    void make() {
-        ll sum = 0;
-        rep(i,1,sz(sm)) {
-            sm[i] += sm[i-1];
-        }
-    }
+  // Constructor that initializes with a given vector and calculates the prefix sums
+  PSum(const vll &v) {
+    sm = v;
+    make();
+  }
 
-    // Function to get the sum of elements in the range [start, end]
-    ll sum(int start, int end) {
-        start = max(start, 0);
-        end = min(end, sz(sm)-1);
+  void add(int pos, ll val) {
+    sm[pos] += val;
+  }
 
-        if (start == 0) {
-            return sm[end];
-        }
-        return sm[end] - sm[start - 1];
+  void add(vll &v) {
+    for (size_t i = 0; i < v.size(); ++i) {
+      sm[i] += v[i];
     }
+  }
+
+  void make() {
+    for (size_t i = 1; i < sm.size(); ++i) {
+      sm[i] += sm[i - 1];
+    }
+  }
+
+  // Function to get the sum of elements in the range [start, end]
+  ll sum(int start, int end) {
+    start = max(start, 0);
+    end = min(end, static_cast<int>(sm.size()) - 1);
+
+    if (start == 0) {
+      return sm[end];
+    }
+    return sm[end] - sm[start - 1];
+  }
 };
