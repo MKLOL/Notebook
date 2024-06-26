@@ -1,7 +1,6 @@
 class Sieve {
-private:
-  vi fp; // first prime (i == fp[i] means it's prime itself)
 public:
+  vi fp; // first prime (i == fp[i] means it's prime itself)
   vi primes; // all primes <= N
   vi nump; // num unique primes
   Sieve(int N) {
@@ -18,12 +17,14 @@ public:
       }
     }
   }
-  vi getPrimes(int x) { // all primes dividing x
-    vi ret;
+  vpi getPrimes(int x) { // prime decomp of x
+    vpi ret;
     while(x > 1) {
-      int p = fp[x];
-      ret.pb(p);
-      while(x % p == 0) x /= p;
+      int p = fp[x], cnt = 0;
+      while(x % p == 0) {
+        x /= p; ++cnt;
+      }
+      ret.pb(mp(p, cnt));
     }
     return ret;
   }
