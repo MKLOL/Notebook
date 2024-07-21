@@ -37,6 +37,6 @@ class Graph {
     }
   }
   void runDijkstra(int s) {
-    runDijkstra({s});
+    runDijkstra(vector<int>({s}));
   }
 };
