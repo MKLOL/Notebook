@@ -1,8 +1,9 @@
 vvll mul(vvll &a, vvll &b) {
   int N = sz(a), M = sz(a[0]), P = sz(b[0]);
   vvll ret(N, vll (P,0));
-  FOR(i,N) FOR(j,P) FOR(k,M)
+  FOR(i,N) FOR(j,P) FOR(k,M) {
     ret[i][j] += a[i][k]*b[k][j]; ret[i][j] %= MOD;
+  }
   return ret;
 }
 vvll matpw(vvll &v, long long k) {
