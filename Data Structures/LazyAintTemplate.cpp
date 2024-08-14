@@ -1,7 +1,6 @@
 
 class SegmentTree {
   struct cel {
-    int nr0,nr1,nr01,nr10;
   };
 public:
     vector<cel> aint; // Segment tree array
@@ -23,12 +22,8 @@ public:
  
     // Utility function to merge child node values
     cel get(cel &left, cel &right) {
-      cel ret{0,0,0,0};
-      ret.nr0 = left.nr0 + right.nr0;
-      ret.nr1 = left.nr1 + right.nr1; 
-      ret.nr01 = max(left.nr0 + right.nr01, left.nr01 + right.nr1);
-      ret.nr10 = max(left.nr1 + right.nr10, left.nr10 + right.nr0);
-
+      cel ret;
+      // Add code to create a cell from the left and the right ones
       return ret;
     }
 
@@ -95,13 +90,7 @@ public:
     // Function to initialize the segment tree
     void init(int nod, int st, int dr) {
       if (st == dr) {
-        if (v[st] == 0) {
-          aint[nod].nr0 = 1;
-        } else {
-          aint[nod].nr1 = 1;
-        }
-        aint[nod].nr01 = 1;
-        aint[nod].nr10 = 1;
+        // add code for leaf
       } else {
         int mij = (st + dr) / 2;
         init(2 * nod, st, mij);
