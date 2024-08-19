@@ -4,12 +4,10 @@ private:
   vector<T> AIB;
   int N;
 
-
   // Function to calculate the least significant bit that is set
   inline int zeros(int x) {
     return x & (-x);
   }
-
 
 public:
   // Constructor to initialize the tree with given size
@@ -17,14 +15,12 @@ public:
     // The AIB vector is initialized with zeros and has size N + 1
   }
 
-
   // Function to add 'q' to the element at index 'x'
   void add(int x, T q) {
     for (int i = x; i <= N; i += zeros(i)) {
       AIB[i] += q;
     }
   }
-
 
   // Function to compute the prefix sum up to 'x'
   T comp(int x) {
@@ -35,7 +31,6 @@ public:
     return ret;
   }
 
-
   // Function to compute the range sum between 'l' and 'r'
   T comp(int l, int r) {
     l = max(1, l);
@@ -43,11 +38,9 @@ public:
     return comp(r) - comp(l - 1);
   }
 
-
   int gle(T x) {
     T sum = 0;
     int pos = 0;
-
 
     // Find the largest power of 2 less than or equal to N using bit manipulation
     int largestPower = 1;
@@ -55,7 +48,6 @@ public:
       largestPower <<= 1;
     }
     largestPower >>= 1;
-
 
     // Start from the largest power of 2 that is less than or equal to N
     for (int i = largestPower; i > 0; i >>= 1) {
@@ -67,7 +59,31 @@ public:
       }
     }
 
-
     return pos; // This position is the largest index with cumulative sum <= x
   }
+
+  int smoe(T x) { // smallest more or equal
+  T sum = 0;
+  int pos = 0;
+
+  // Find the largest power of 2 less than or equal to N using bit manipulation
+  int largestPower = 1;
+  while (largestPower <= N) {
+    largestPower <<= 1;
+  }
+  largestPower >>= 1;
+
+  // Start from the largest power of 2 that is less than or equal to N
+  for (int i = largestPower; i > 0; i >>= 1) {
+    // Check if the position plus the current power of 2 is within the bounds
+    // and if including this part would get the sum >= x
+    if (pos + i <= N && sum + AIB[pos + i] < x) {
+      sum += AIB[pos + i]; // update the sum to include this part
+      pos += i;            // move the position forward by the power of 2
+    }
+  }
+
+  // Since pos will end up at the largest index where cumulative sum < x, increment to find >= x
+  return pos + 1; // This position is the smallest index with cumulative sum >= x
+}
 };
