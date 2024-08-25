@@ -11,23 +11,8 @@ private:
     return res;
   }
 
-  // Function to generate the RMQ table if it represents values
+  // Function to generate the RMQ table (for indexes)
   void genRmq() {
-    for (int i = 2; i <= N; ++i) {
-      lg[i] = lg[i / 2] + 1;
-    }
-    FOR(i,N) {
-      rmq[0][i] = v[i];
-    }
-    for (int i = 1; (1 << i) <= N; ++i) {
-      for (int j = 0; j + (1 << i) - 1 < N; ++j) {
-        rmq[i][j] = min(rmq[i - 1][j], rmq[i - 1][j + (1 << (i - 1))]);
-      }
-    }
-  }
-
-  // Function to generate the RMQ table if it represents indexes
-  void genRmqIndex() {
     for (int i = 2; i <= N; ++i) {
       lg[i] = lg[i / 2] + 1;
     }
@@ -55,18 +40,10 @@ public:
     log = log2(N) + 1;
     rmq.assign(log + 1, vi(N));
     lg.assign(N + 1, 0);
-    genRmq(); // use genRmqIndex to track index instead of values
-  }
-
-  // Function to query the minimum value in the range [x, y]
-  // assumes genRmq init
-  int query(int x, int y) {
-    int l = lg[y - x + 1], sh = y - x + 1 - (1 << l);
-    return min(rmq[l][x], rmq[l][x + sh]);
+    genRmq();
   }
 
   // Function to query the index of the min value in the range [x, y]
-  // assumes genRmqIndex init
   int queryIndex(int x, int y) {
     int l = lg[y - x + 1], sh = y - x + 1 - (1 << l);
     if(v[rmq[l][x]] <= v[rmq[l][x + sh]]) {
@@ -74,5 +51,10 @@ public:
     } else {
       return rmq[l][x + sh];
     }
+  }
+
+  // Function to query the minimum value in the range [x, y]
+  int query(int x, int y) {
+    return v[queryIndex(x,y)];
   }
 };
