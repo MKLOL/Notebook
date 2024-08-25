@@ -11,11 +11,11 @@ public:
     // Function to apply lazy propagation
     void relax(int nod, int st, int dr) {
         if (!up[nod]) return;
-        swap(aint[nod].nr0, aint[nod].nr1);
-        swap(aint[nod].nr01, aint[nod].nr10);
+        // Add code to update aint[nod] using up[nod]
+        
         if (st != dr) {
-          up[2 * nod] ^= up[nod];
-          up[2 * nod + 1] ^= up[nod];    
+          up[2 * nod]; // Add code to update up[2*nod]
+          up[2 * nod + 1]; // Add code to update up[2*nod+1]
         }
         up[nod] = 0;
     }
