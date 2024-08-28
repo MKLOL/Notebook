@@ -8,7 +8,6 @@ void makeFi(int lim) {
   }
 }
 
-// Euclid extins
 int gcd(int a, int b, int &x, int &y) {
   if(!b) { x=1; y=0; return a; } 
   else {
@@ -16,15 +15,7 @@ int gcd(int a, int b, int &x, int &y) {
     x = y0; y = x0 - a/b *y0; return d;
   }
 }
-pair<int,int> euclid(int a, int b, int c) { //ax - by = c;
-  int x, y, sol1, sol2; int d = gcd(a,b,x,y);
-  if(c%d) return mp(0,0); //no sol
-  else { sol1 = (c/d)*x; sol2 = -(c/d)*y; }
-  //only if want minimal
-  while(sol1 < 0 || sol2 < 0) { sol1 += b/d; sol2 += a/d;}
-  while(sol1 >= b/d || sol2 >= a/d) { sol1 -= b/d; sol2 -= a/d;}
-  return mp(sol1,sol2);
-}
+
 int inversmod(int a, int b) { //inverse of a mod b
   int x,y; gcd(a,b,x,y);
   if(x<0) { int k = (-x-1)/b + 1; x += k*b;}
