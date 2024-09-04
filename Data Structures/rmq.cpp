@@ -9,7 +9,7 @@ private:
     // Function to compare indices based on the values in v
     // Returns true if the value at index x should be preferred over the value at index y
     bool cmp(int x, int y) {
-        return v[x] >= v[y];  // Default comparison for min; change to >= for max
+        return v[x] >= v[y];  // Default comparison for max; change to <= for min
     }
 
     // Function to generate the RMQ table
@@ -31,7 +31,7 @@ private:
  
 public:
     // Constructor to initialize the table with given size and values
-    RMQmin(const vector<T>& values) : v(values) {
+    RMQmax(const vector<T>& values) : v(values) {
         N = v.size();
         log = static_cast<int>(log2(N)) + 1;
         rmq.assign(log, vector<int>(N));
