@@ -1,8 +1,17 @@
 class SegmentTree {
 public:
   ll MMAX = -1000000000LL * 1000000;
-  vector<int> t, vals;
+  vector<int> t;
+  vll vals;
   int N;
+
+  int get(int ret1, int ret2) {
+      if (ret1 == -1) return ret2;
+      if (ret2 == -1) return ret1;
+      
+      // UDPATE HERE IF USING SOMETHING OTHER THAN MAX
+      return (vals[ret1] >= vals[ret2]) ? ret1 : ret2;
+  }
 
   void privateUpdate(int nod, int st, int dr, int poz, ll val) {
     if (st == dr) {
@@ -16,7 +25,7 @@ public:
     } else {
       privateUpdate(2 * nod + 1, mij + 1, dr, poz, val);
     }
-    t[nod] = (vals[t[nod * 2]] >= vals[t[nod * 2 + 1]]) ? t[nod * 2] : t[nod * 2 + 1];
+    t[nod] = get(t[2*nod], t[2*nod+1]);
   }
 
   int privateGetMax(int nod, int st, int dr, int l, int r) {
@@ -28,9 +37,7 @@ public:
     if (r > mij) ret1 = privateGetMax(nod * 2 + 1, mij + 1, dr, l, r);
     if (l <= mij) ret2 = privateGetMax(nod * 2, st, mij, l, r);
 
-    if (ret1 == -1) return ret2;
-    if (ret2 == -1) return ret1;
-    return (vals[ret1] >= vals[ret2]) ? ret1 : ret2;
+    return get(ret1, ret2);
   }
 
   void make(int nod, int l, int r) {
@@ -40,7 +47,7 @@ public:
       int mid = (l + r) / 2;
       make(nod * 2, l, mid);
       make(nod * 2 + 1, mid + 1, r);
-      t[nod] = (vals[t[nod * 2]] >= vals[t[nod * 2 + 1]]) ? t[nod * 2] : t[nod * 2 + 1];
+      t[nod] = get(t[2*nod], t[2*nod+1]);
     }
   }
 
@@ -52,7 +59,7 @@ public:
     make(1, 0, N - 1);
   }
 
-  SegmentTree(const vector<int>& input) : vals(input) {
+  SegmentTree(const vll input) : vals(input) {
     N = sz(input);
     t.assign(4 * N, 0);
     make(1, 0, N - 1);
@@ -62,7 +69,7 @@ public:
     privateUpdate(1, 0, N - 1, poz, val);
   }
 
-  pair<ll, int> getMax(int l, int r) {
+  pair<int, ll> getMax(int l, int r) { // index and value
     int ind = privateGetMax(1, 0, N - 1, l, r);
     return mp(ind, vals[ind]);
   }
