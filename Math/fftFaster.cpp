@@ -1,3 +1,4 @@
+#define MOD 998244353
 template<int MODX>
 struct ModInt {
   ll x;
