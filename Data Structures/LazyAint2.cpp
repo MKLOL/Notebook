@@ -1,27 +1,38 @@
 struct cel {
 };
 
-class SegmentTree {  
+// update cel
+struct celu {
+};
+
+class SegmentTree {
+
 public:
   vector<cel> aint; // Segment tree array
-  vector<ll> up;   // Lazy propagation array
-  vector<ll> v;    // Input data array
+  vector<celu> up;   // Lazy propagation array
+  vll v;    // Input data array
   int N;         // Maximum size of the array
 
   // Function to apply lazy propagation
   void relax(int nod, int st, int dr) {
-    if (!up[nod]) return;
+    // Add condition to stop propagating
+    if(!up[nod]) return;
+
     // Add code to update aint[nod] using up[nod]
-    
+    aint[nod];
+ 
+    // Add code to update up[2*nod] and up[2*nod+1]
     if (st != dr) {
-      up[2 * nod]; // Add code to update up[2*nod]
-      up[2 * nod + 1]; // Add code to update up[2*nod+1]
+      up[2*nod];
+      up[2*nod+1];
     }
+
+    // Clear up[nod]
     up[nod] = 0;
   }
 
   // Utility function to merge child node values
-  cel get(cel &left, cel &right) {
+  cel get(int st, int dr, cel &left, cel &right) {
     cel ret;
     // Add code to create a cell from the left and the right ones
     return ret;
@@ -32,11 +43,11 @@ public:
     relax(nod, st, dr);
     relax(2 * nod, st, mij);
     relax(2 * nod + 1, mij + 1, dr);
-    aint[nod] = get(aint[nod*2], aint[nod*2+1]);
+    aint[nod] = get(st, dr, aint[nod*2], aint[nod*2+1]);
   }
 
   // Constructor
-  SegmentTree(const vector<ll>& input) : v(input) {
+  SegmentTree(const vll& input) : v(input) {
     N = input.size();
     aint.resize(4 * N);
     up.resize(4 * N);
@@ -44,9 +55,13 @@ public:
     init(1, 0, N - 1);
   }
 
+  celu get_next(int st, int dr, int ist, int idr, celu val) {
+    // Update cel for (mij+1, dr)
+    return val;
+  }
 
   // Function to update the segment tree
-  void update(int nod, int ist, int idr, int st, int dr, ll val) {
+  void update(int nod, int ist, int idr, int st, int dr, celu val) {
     relax(nod, st, dr);
     if (ist <= st && idr >= dr) {
       up[nod] = val;
@@ -54,7 +69,7 @@ public:
     } else {
       int mij = (st + dr) / 2;
       if (ist <= mij) update(2 * nod, ist, idr, st, mij, val);
-      if (idr > mij) update(2 * nod + 1, ist, idr, mij + 1, dr, val);
+      if (idr > mij) update(2 * nod + 1, ist, idr, mij + 1, dr, get_next(st, dr, ist, idr, val));
       make(nod, st, dr);
     }
   }
@@ -70,7 +85,7 @@ public:
       if (ist <= mij) ret = query(2 * nod, ist, idr, st, mij);
       if (idr > mij) {
         auto right = query(2 * nod + 1, ist, idr, mij + 1, dr);
-        if (ist <= mij) ret = get(ret, right);
+        if (ist <= mij) ret = get(st, dr, ret, right);
         else ret = right;
       }
       make(nod, st, dr);
@@ -82,7 +97,7 @@ public:
     return query(1, st, dr, 0, N-1);
   }
 
-  void update(int st, int dr, ll val) {
+  void update(int st, int dr, celu val) {
     if (st > dr) return;
     update(1, st, dr, 0, N-1, val);
   }
