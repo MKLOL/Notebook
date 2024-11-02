@@ -1,6 +1,7 @@
-class Graph {
+ll inf = 1000000000LL * 1000000000;
 
-  public:
+class Graph {
+public:
   int Nx;
   vector<ll> d, viz;
   vector<vector<pll>> g;
@@ -13,7 +14,7 @@ class Graph {
 
   void runDijkstra(const vector<int>& s) {
     priority_queue<pll, vector<pll>, greater<pll>> pq;
-    for (int i = 1; i <= Nx; ++i) d[i] = inf;
+    FOR(i, Nx) d[i] = inf;
     fill(viz.begin(), viz.end(), 0);
 
     for (int x : s) {
