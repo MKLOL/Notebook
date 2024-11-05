@@ -68,6 +68,7 @@ public:
 
   LCAFinder(vvi &graph, int root): g(graph) {
     poz.resize(sz(graph)+1);
+    FOR(i, sz(poz)) poz[i] = -1;
     preprocessLca(root);
   }
 
@@ -77,12 +78,16 @@ public:
   }
 
   void dfs(int x, int lev) {
-    e.pb(x);
-    L.pb(lev);
     poz[x] = sz(e);
+    e.pb(x);
+    L.pb(lev); 
 
     for(auto y: g[x]) {
-      dfs(y,lev+1); e.pb(x); L.pb(lev);
+      if(poz[y] == -1) {
+        dfs(y,lev+1);
+        e.pb(x);
+        L.pb(lev);
+      }
     }
   }
 
@@ -91,5 +96,12 @@ public:
     if(a>b) swap(a,b);
     int sol = rmq.queryIndex(a,b);
     return e[sol];
+  }
+
+  int dist(int x, int y) {
+    int a = poz[x], b = poz[y];
+    if(a>b) swap(a,b);
+    int sol = rmq.queryIndex(a,b);
+    return L[a] + L[b] - 2* L[sol];
   }
 };
