@@ -1,38 +1,80 @@
-int tr[Nmax], nw[Nmax], NR, term[Nmax], len[Nmax], to[Nmax][sigma], link[Nmax], sz = 1;
-void add(string s) { // doesn't handle dups
-  int cur = 0;
-  for(auto c: s) {
-    if(!to[cur][c - 'a']) {
-        to[cur][c - 'a'] = sz++;
-        len[to[cur][c - 'a']] = len[cur] + 1;
-    }
-    cur = to[cur][c - 'a'];
+class Aho {
+public:
+  static const int sigma = 26; // alphabet size 
+  static const int off = 'a'; // first letter
+  int nodes; // nodes
+  int NR = 0; // terminal nodes
+
+  vi tr; //
+  vi term; //
+  vi link; // fail edge
+  vvi to; // edges
+  // ADD MORE CUSTOM THINGS MAYBE (e.g. node->index, index->node, counters)
+
+  void _new_node_update() {
+    tr.pb(0);
+    term.pb(0);
+    link.pb(0);
+    to.pb(vi(sigma, 0));
+    // ADD MORE CUSTOM THINGS MAYBE
   }
-  term[cur] = cur; tr[cur] = ++NR;
-}
  
-void push_links() {
-  queue<int> Q; Q.push(0);
-  while(!Q.empty()) {
-    int V = Q.front(); Q.pop(); int U = link[V];
-    if(!term[V]) term[V] = term[U];
-    for(int c = 0; c < sigma; c++) {
-      if(to[V][c]) {
+  Aho() {
+    nodes = 1;
+    _new_node_update();
+  }
+ 
+  void add(string &s, int val) {
+    int cur = 0; // root
+    for(auto c: s) {
+      if(!to[cur][c - off]) {
+        to[cur][c - off] = nodes++;
+        _new_node_update();
+      }
+      cur = to[cur][c - off];
+    }
+    term[cur] = cur;
+    tr[cur] = ++NR;
+    // ADD MORE CUSTOM THINGS MAYBE
+
+  }
+   
+  void push_links() {
+    queue<int> Q;
+    Q.push(0);
+    while(!Q.empty()) {
+      int V = Q.front();
+      Q.pop();
+      int U = link[V];
+      if(!term[V]) term[V] = term[U];
+      FOR(c, sigma) {
+        if(to[V][c]) {
           link[to[V][c]] = V ? to[U][c] : 0;
           Q.push(to[V][c]);
-      } else to[V][c] = to[U][c];
+        } else {
+          to[V][c] = to[U][c];
+        }
+      }
     }
   }
-}
 
-void match(string s) {
-  int cur = 0;
-  for(auto c : s) {    
-    cur = to[cur][c-'a']; int f = cur;
-    while(f) {
-      if(tr[f]) tr[f]; // match on tr[f]
-      if(f == term[f]) f = term[link[f]];
-      else f = term[f];
+  void process_match(int node, int poz) {
+    // ADD CUSTOM LOGIC
+  }
+ 
+  void match(string &s) {
+    int cur = 0;
+    FOR(i, sz(s)) {
+      char c = s[i];
+      cur = to[cur][c-off];
+      int f = cur;
+      while(f) {
+        if(tr[f]) {
+          process_match(f, i);
+        }
+        if(f == term[f]) f = term[link[f]];
+        else f = term[f];
+      }
     }
   }
-}
+};
