@@ -5,18 +5,19 @@ public:
   int nodes; // nodes
   int NR = 0; // terminal nodes
 
-  vi tr; //
-  vi term; //
+  vvi to;  // edges
   vi link; // fail edge
-  vvi to; // edges
-  // ADD MORE CUSTOM THINGS MAYBE (e.g. node->index, index->node, counters)
+  vi tr;   // from node to terminal index
+  vi term; // closest terminal node on the failure link path
+  
+  // ADD MORE CUSTOM THINGS MAYBE (e.g. ind[node] = index from input)
 
   void _new_node_update() {
     tr.pb(0);
     term.pb(0);
     link.pb(0);
     to.pb(vi(sigma, 0));
-    // ADD MORE CUSTOM THINGS MAYBE
+    // ADD MORE CUSTOM THINGS IF NEEDED
   }
  
   Aho() {
@@ -24,7 +25,8 @@ public:
     _new_node_update();
   }
  
-  void add(string &s, int val) {
+  // val is some custom identifier (e.g. index in list of strings)
+  void add(string &s, int val) { 
     int cur = 0; // root
     for(auto c: s) {
       if(!to[cur][c - off]) {
@@ -35,8 +37,9 @@ public:
     }
     term[cur] = cur;
     tr[cur] = ++NR;
-    // ADD MORE CUSTOM THINGS MAYBE
 
+    // ADD MORE CUSTOM THINGS MAYBE
+    // e.g. ind[cur] = val (or push back, or increase some count of whatevs)
   }
    
   void push_links() {
