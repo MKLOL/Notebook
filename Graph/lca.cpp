@@ -61,7 +61,6 @@ public:
 
 class LCAFinder {
 public:
-  int K=0;
   vi e, L, poz;
   SparseTable rmq;
   vvi g;
