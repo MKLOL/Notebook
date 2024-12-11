@@ -8,6 +8,23 @@ void makeFi(int lim) {
   }
 }
 
+/*******************************************************/
+
+// M as big as you want, N ~ 10^6, returns comb(M, 0).. comb(M, N) 
+vector<mint> firstN_cb(ll M, int N) {
+  vector<mint> ret;
+  mint cb = 1;
+  ret.pb(cb);
+
+  FOR(i, N) {
+    cb = cb * (M-i) / (i+1);
+    ret.pb(cb);
+  }
+  return ret;
+}
+
+/*******************************************************/
+
 int gcd(int a, int b, int &x, int &y) {
   if(!b) { x=1; y=0; return a; } 
   else {
@@ -57,6 +74,8 @@ pair<int,int> chinese(vector<int> &a, vector<int> &m) {
   }
   return ret;
 }
+
+/*******************************************************/
 
 // Fancy comb A, B ~ 10^18, MOD ~ 10^6 didn't test in a while tho
 ll vp(ll x) { //exponent of MOD in x!
