@@ -71,7 +71,7 @@ class SuffixArray {
     FOR(i,N) sa[--cnt[norm[i]]] = i;
     
  
-    for(int k=1; 2*k < N;k*=2) {
+    for(int k=1; k < N;k*=2) {
     // sort by second
       FOR(i,k) w[i] = N-i-1;
       int ind = k;
