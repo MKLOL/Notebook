@@ -91,7 +91,7 @@ class SuffixArray {
       }
       // renormalize
       FOR(i,N) {
-        if(!i) {tmp[i] = 1; continue;}
+        if(!i) {tmp[sa[i]] = 1; continue;}
         int val1 = sa[i]+k >= N ? 0: norm[sa[i]+k];
         int val2 = sa[i-1]+k >= N ? 0: norm[sa[i-1]+k];
         if(norm[sa[i]] == norm[sa[i-1]] && val1 == val2) {
