@@ -26,3 +26,14 @@ vi pscpld (string s) {
   
   return val;
 }
+
+int isp(int l, int r, vi &v) {
+  if ( (r - l + 1) % 2 == 1) {
+      int mid = (l + r);
+      if (v[mid] >= r - l + 1) return 1;
+  } else {
+      int mid = (l+r);
+      if (v[mid] >= r - l + 1) return 1;
+  }
+  return 0;
+}
