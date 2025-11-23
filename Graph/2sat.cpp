@@ -27,7 +27,7 @@ inline bool sat() {
   for(int i=1;i<=comp;++i) if(!vz[i]) if(!f(i,1)) return false;
   return true;
 }
-inline void add_disj(int x, int sx, int y, int sy) {//s 0 normal,1 negation
+inline void add_disj(int x, int sx, int y, int sy) {//s 0 normal,1 negation (x or y)
   g[2*x+(1-sx)].push_back(2*y+sy);
   g[2*y+(1-sy)].push_back(2*x+sx);
   gt[2*y+sy].push_back(2*x+(1-sx));
