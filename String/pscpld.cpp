@@ -7,9 +7,7 @@ vi pscpld (string s) {
       s1 += "*";
     }
   }
-
   vi val(sz(s1));
-
   for(int i=0;i<sz(s1);++i) {
     if(maxVal >= i) {
       int loc = maxind - (i-maxind);
@@ -23,17 +21,15 @@ vi pscpld (string s) {
       }
     }
   }
-  
   return val;
 }
-
 int isp(int l, int r, vi &v) {
   if ( (r - l + 1) % 2 == 1) {
-      int mid = (l + r);
-      if (v[mid] >= r - l + 1) return 1;
+    int mid = (l + r);
+    if (v[mid] >= r - l + 1) return 1;
   } else {
-      int mid = (l+r);
-      if (v[mid] >= r - l + 1) return 1;
+    int mid = (l+r);
+    if (v[mid] >= r - l + 1) return 1;
   }
   return 0;
 }

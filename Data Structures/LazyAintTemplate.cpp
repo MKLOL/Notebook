@@ -1,50 +1,35 @@
-struct cel {
-};
-
+struct cel {};
 class SegmentTree {  
 public:
   vector<cel> aint; // Segment tree array
   vector<ll> up;   // Lazy propagation array
   vector<ll> v;    // Input data array
   int N;         // Maximum size of the array
-
-  // Function to apply lazy propagation
   void relax(int nod, int st, int dr) {
     if (!up[nod]) return;
     // Add code to update aint[nod] using up[nod]
-    
     if (st != dr) {
       up[2 * nod]; // Add code to update up[2*nod]
       up[2 * nod + 1]; // Add code to update up[2*nod+1]
     }
     up[nod] = 0;
   }
-
-  // Utility function to merge child node values
   cel get(cel &left, cel &right) {
-    cel ret;
-    // Add code to create a cell from the left and the right ones
+    cel ret; // create cel from left and right
     return ret;
   }
-
   void make(int nod, int st, int dr) {
-    int mij = (st + dr) / 2;
-    relax(nod, st, dr);
+    int mij = (st + dr) / 2; relax(nod, st, dr);
     relax(2 * nod, st, mij);
     relax(2 * nod + 1, mij + 1, dr);
     aint[nod] = get(aint[nod*2], aint[nod*2+1]);
   }
-
-  // Constructor
   SegmentTree(const vector<ll>& input) : v(input) {
     N = input.size();
     aint.resize(4 * N);
     up.resize(4 * N);
-
     init(1, 0, N - 1);
   }
-
-
   // Function to update the segment tree
   void update(int nod, int ist, int idr, int st, int dr, ll val) {
     relax(nod, st, dr);
@@ -58,7 +43,6 @@ public:
       make(nod, st, dr);
     }
   }
-
   // Function to query the sum in a range
   cel query(int nod, int ist, int idr, int st, int dr) {
     relax(nod, st, dr);
@@ -77,17 +61,13 @@ public:
       return ret; 
     }
   }
-
   cel query(int st, int dr) {
     return query(1, st, dr, 0, N-1);
   }
-
   void update(int st, int dr, ll val) {
     if (st > dr) return;
     update(1, st, dr, 0, N-1, val);
   }
-
-  // Function to initialize the segment tree
   void init(int nod, int st, int dr) {
     if (st == dr) {
       // add code for leaf

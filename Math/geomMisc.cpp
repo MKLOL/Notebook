@@ -75,11 +75,11 @@ pair<pdd,pdd> farthestPoints(vector<pdd> &v) {
   return ret;
 }
 /**************** TRANSFORMATIONS AND ELLIPSE ***************/
-double rot[3][3] = {{cos(a),-sin(a),0},{sin(a),cos(a)},0},{0,0,1}};
+double rot[3][3] = {{cos(a),-sin(a),0},{sin(a),cos(a),0},{0,0,1}};
 double rotx[4][4] = {{1,0,0,0}, {0,cos(a),-sin(a),0}, 
-{0,sin(a),cos(a)},0}, {0,0,0,1}};
+{0,sin(a),cos(a),0}, {0,0,0,1}};
 double roty[4][4] = {{cos(a),0,sin(a),0}, {0,1,0,0},
-{-sin(a),0,cos(a)},0},{0,0,0,1}};
+{-sin(a),0,cos(a),0},{0,0,0,1}};
 double rotz[4][4] = {{cos(a),-sin(a),0,0},{sin(a),cos(a),0,0},
 {0,0,1,0},{0,0,0,1}};
 long double ellipseInt(long double x) {

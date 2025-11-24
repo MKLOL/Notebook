@@ -27,5 +27,4 @@ long long query(long long x) { //return max ax+b
 /*KNUTH: d[i][j] = min(d[i][k] + d[k][j] + c[i][j]) 
 DIVCONQ: d[i][j] = min(d[i-1][k] + c[k][j]), c[i][j] <= c[i][j+1]
 compute(j, l, r, optL, optR) m = (l+r)/2; brut(m,optL,optR); 
-compute(j,l,m-1,optL, opt[m][j]); compute(j,m+1,r, opt[m][j], optR);
-*/
+compute(j,l,m-1,optL, opt[m][j]); compute(j,m+1,r, opt[m][j], optR);*/

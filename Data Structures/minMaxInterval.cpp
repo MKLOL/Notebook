@@ -28,7 +28,6 @@ vpi getMin(vpi &v) {
   }
   return ret;
 }
- 
 vpi getMax(vpi &v) {
   vpi ret(sz(v));
   for (int i=0;i<sz(v);++i) {

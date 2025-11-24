@@ -1,15 +1,11 @@
 int pw(int x, int y) {
   if(!y) return 1;
   if(y%2) return (1LL*x*pw(x, y-1)) % MOD;
-  int z = pw(x, y/2);
-  return (1LL*z*z)% MOD;
+  int z = pw(x, y/2); return (1LL*z*z)% MOD;
 }
-inline int inv(int x) {
-  return pw(x, MOD-2);
-}
+inline int inv(int x) { return pw(x, MOD-2);}
 inline int interpolate(vpi v, int x) {
-  int ret = 0;
-  int N = v.size();
+  int ret = 0; int N = v.size();
   FOR(i, N) {
     int term = v[i].sc;
     FOR(j, N) {

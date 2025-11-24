@@ -4,27 +4,15 @@ public:
   static const int off = 'a'; // first letter
   int nodes; // nodes
   int NR = 0; // terminal nodes
-
   vvi to;  // edges
   vi link; // fail edge
   vi tr;   // from node to terminal index
   vi term; // closest terminal node on the failure link path
-  
-  // ADD MORE CUSTOM THINGS MAYBE (e.g. ind[node] = index from input)
-
-  void _new_node_update() {
-    tr.pb(0);
-    term.pb(0);
-    link.pb(0);
-    to.pb(vi(sigma, 0));
-    // ADD MORE CUSTOM THINGS IF NEEDED
+  // ADD MORE CUSTOM THINGS IF NEEDED (e.g. ind[node] = index from input)
+  void _new_node_update() {/ / ADD MORE CUSTOM THINGS IF NEEDED
+    tr.pb(0); term.pb(0); link.pb(0); to.pb(vi(sigma, 0));
   }
- 
-  Aho() {
-    nodes = 1;
-    _new_node_update();
-  }
- 
+  Aho() {nodes = 1; _new_node_update();} // just the root
   // val is some custom identifier (e.g. index in list of strings)
   void add(string &s, int val) { 
     int cur = 0; // root
@@ -35,20 +23,13 @@ public:
       }
       cur = to[cur][c - off];
     }
-    term[cur] = cur;
-    tr[cur] = ++NR;
-
-    // ADD MORE CUSTOM THINGS MAYBE
-    // e.g. ind[cur] = val (or push back, or increase some count of whatevs)
+    term[cur] = cur; tr[cur] = ++NR;
+    // ADD MORE IF NEEDED e.g. ind[cur] = val (or push back, or increase some count of whatevs)
   }
-   
   void push_links() {
-    queue<int> Q;
-    Q.push(0);
+    queue<int> Q; Q.push(0);
     while(!Q.empty()) {
-      int V = Q.front();
-      Q.pop();
-      int U = link[V];
+      int V = Q.front(); Q.pop(); int U = link[V];
       if(!term[V]) term[V] = term[U];
       FOR(c, sigma) {
         if(to[V][c]) {
@@ -60,21 +41,13 @@ public:
       }
     }
   }
-
-  void process_match(int node, int poz) {
-    // ADD CUSTOM LOGIC
-  }
- 
+  void process_match(int node, int poz) {} // ADD CUSTOM LOGIC
   void match(string &s) {
     int cur = 0;
     FOR(i, sz(s)) {
-      char c = s[i];
-      cur = to[cur][c-off];
-      int f = cur;
+      char c = s[i]; cur = to[cur][c-off]; int f = cur;
       while(f) {
-        if(tr[f]) {
-          process_match(f, i);
-        }
+        if(tr[f]) process_match(f, i);
         if(f == term[f]) f = term[link[f]];
         else f = term[f];
       }

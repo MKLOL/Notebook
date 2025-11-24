@@ -22,8 +22,7 @@ void init(){
   viz.clear(); viz.resize(N+10);
   iss.clear(); iss.resize(N+10);
   low.clear(); low.resize(N+10);
-  aux.clear();
-  comp.clear();
+  aux.clear(); comp.clear();
   k=0; indx=1;
   for(int i=1;i<=N;++i) {
     if(!viz[i]) df(i);

@@ -1,30 +1,54 @@
 int lcm(int a, int b) { return a / __gcd(a,b) * b; }
-
-int fi[Nmax];
+int fi[Nmax]; // TOTIENT
 void makeFi(int lim) {
   fi[1] = 1; for(int i=2;i<=lim;++i) fi[i] = i-1;
   for(int i=2;i<=lim;++i) {
     for(int j=2;i*j<=lim;++j) fi[i*j] -= fi[i];
   }
 }
-
-/*******************************************************/
-
 // M as big as you want, N ~ 10^6, returns comb(M, 0).. comb(M, N) 
 vector<mint> firstN_cb(ll M, int N) {
-  vector<mint> ret;
-  mint cb = 1;
-  ret.pb(cb);
-
+  vector<mint> ret; mint cb = 1; ret.pb(cb);
   FOR(i, N) {
-    cb = cb * (M-i) / (i+1);
-    ret.pb(cb);
+    cb = cb * (M-i) / (i+1); ret.pb(cb);
   }
   return ret;
 }
-
-/*******************************************************/
-
+/**** EUCLID EXTINS ****/
+ll gcd(ll a, ll b, ll &x, ll &y) {
+  if(!b) { x=1; y=0; return a;} 
+  else {
+    ll x0, y0, d = gcd(b, a%b, x0, y0);
+    x = y0; y = x0 - a/b *y0;
+    return d;
+  }
+}
+// Returns {{x, per1}, {y, per2}} so that ax - by = c
+// x + per1 * T, y + per2 * T also solutions for any T
+// Picks smallest pair so that both >= 0
+pair<pll, pll> euclid(ll a, ll b, ll c) {
+  ll x, y;
+  ll d = gcd(abs(a), abs(b), x, y);
+  if(a < 0) x = -x; if(b < 0) y = -y;
+  // no sol, the periods should be positive, so 0 is invalid
+  if(c%d) return {{0LL,0LL}, {0LL,0LL}};
+  ll sol1 = (c/d) * x; ll sol2 = -(c/d) * y;
+  // sol1 + per1 * T, sol2 + per2 * T also solutions
+  ll per1 = abs(b)/d; ll per2 = abs(a)/d;
+  if(sol1 < 0) { // make them positive
+    ll ceil = (-sol1 + per1 - 1) / per1;
+    sol1 += per1 * ceil; sol2 += per2 * ceil;
+  }
+  if(sol2 < 0) {
+    ll ceil = (-sol2 + per2 - 1) / per2;
+    sol1 += per1 * ceil; sol2 += per2 * ceil;
+  }
+  // minimize without making them negative
+  ll steps = min(sol1 / per1, sol2 / per2);
+  sol1 -= steps * per1; sol2 -= steps * per2;
+  return {{sol1, per1}, {sol2, per2}};
+}
+/**** CHINESE REMAINDER THEOREM ***/
 int gcd(int a, int b, int &x, int &y) {
   if(!b) { x=1; y=0; return a; } 
   else {
@@ -32,7 +56,6 @@ int gcd(int a, int b, int &x, int &y) {
     x = y0; y = x0 - a/b *y0; return d;
   }
 }
-
 int inversmod(int a, int b) { //inverse of a mod b
   int x,y; gcd(a,b,x,y);
   if(x<0) { int k = (-x-1)/b + 1; x += k*b;}
@@ -55,7 +78,6 @@ vector<int> linSolver(int a, int b, int c) { //ax = b (mod c)
   }
   return sol;
 }
-
 // Chinese remainder theorem x = a1 mod m1, x = a2 mod m2
 pair<int,int> crt(int a1, int m1, int a2, int m2) {
   int d = gcd(m1,m2);
@@ -74,9 +96,7 @@ pair<int,int> chinese(vector<int> &a, vector<int> &m) {
   }
   return ret;
 }
-
 /*******************************************************/
-
 // Fancy comb A, B ~ 10^18, MOD ~ 10^6 didn't test in a while tho
 ll vp(ll x) { //exponent of MOD in x!
   ll z = MOD, ret = 0;

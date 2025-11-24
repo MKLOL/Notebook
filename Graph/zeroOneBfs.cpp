@@ -3,7 +3,6 @@ vector<int> zeroOneBFS(int start, int K) {
   dist[start] = 0;
   deque<int> dq;
   dq.pb(start);
- 
   while(!dq.empty()) {
     int u = dq.front(); 
     dq.pop_front();

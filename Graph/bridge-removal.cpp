@@ -2,9 +2,7 @@ int low[Nmax], depth[Nmax], viz[Nmax];
 vi nnodes[Nmax], g[Nmax];
 vector<int> gx[Nmax]; // new graph, where each node is the bi-component
 int CNT = 0;
-
 map<pii, int> de; // deleted edges
-
 void dfs(int x, int p, int dep) {
   viz[x] = 1; depth[x] = low[x] = dep;
   for (auto y: g[x]) {
@@ -17,21 +15,17 @@ void dfs(int x, int p, int dep) {
     } else if (y != p) low[x] = min(low[x], depth[y]);
   }
 }
-
 void df(int x) {
   nnodes[CNT].pb(x); hc[x] = CNT;
   for (auto y: g[x]) {
-    // if the edge is not a bridge
-    if (de[mp(x, y)]) continue;
+    if (de[mp(x, y)]) continue; // not a bridge
     if (!hc[y]) df(y);
   }
 }
-
 void biconnect() {
   for (int i = 1; i <= N; ++i) if (!viz[i]) dfs(i, 0, 0);
   for (int i = 1; i <= N; ++i) {
-    // if no component
-    if (!hc[i]) { ++CNT; df(i); }
+    if (!hc[i]) { ++CNT; df(i); }    // if no component
   }
   for (int i = 1; i <= N; ++i) {
     for (auto y: g[i]) if (hc[i] != hc[y]) {

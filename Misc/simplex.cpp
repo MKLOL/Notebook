@@ -5,7 +5,6 @@ typedef vector<VD> VVD;
 typedef vector<int> VI;
 DOUBLE inf = -numeric_limits<DOUBLE>::infinity();
 const DOUBLE EPS = 1e-9;
-
 struct LPSolver {
   int m, n;
   VI B, y; //slack variables, actual variables
